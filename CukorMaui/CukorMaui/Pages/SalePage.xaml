@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CukorMaui.Pages.SalePage"
+             Title="SalePage">
+    <VerticalStackLayout Padding="30,0"
+Spacing="25">
+        <Grid ColumnDefinitions="7*,3*">
+            <ScrollView Grid.Column="0">
+                <CollectionView ItemsSource="{Binding Sales}" Margin="10">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 10" Padding="15" BackgroundColor="#F0F0F0" Margin="0,0,0,10">
+                                <Grid ColumnDefinitions="3*, *, *, *, *,2*" ColumnSpacing="5" HorizontalOptions="Fill">
+
+                                    <Label Grid.Column="0" 
+                       Text="{Binding CandyId}" 
+                       FontAttributes="Bold" 
+                       FontSize="18" 
+                       VerticalOptions="Center" />
+
+                                    <Label Grid.Column="1" 
+                       Text="{Binding Quantity}" 
+                       VerticalOptions="Center" />
+
+                                    <Label Grid.Column="2" 
+                       Text="Ft" 
+                       Margin="0,0,10,0"
+                       VerticalOptions="Center" />
+
+                                    <Label Grid.Column="3" 
+                       Text="{Binding Sum}" 
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
+
+                                    <Label Grid.Column="4" 
+                       Text="db" 
+                       VerticalOptions="Center" />
+                                    <Button Text="Törlés" BackgroundColor="Red" Grid.Column="5" Clicked="DeleteSale"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="Nem adtunk el édességet 😢" FontSize="18" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </ScrollView>
+            <VerticalStackLayout Grid.Column="1">
+                <Border StrokeShape="RoundRectangle 10" Padding="15" BackgroundColor="#F0F0F0" Margin="0,0,0,10">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Add meg az eladott cukrot:"/>
+                        <Picker Title="Válassz egy édességet!"
+                                ItemsSource="{Binding Candies}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedIndexChanged="OnCandyPickerChanged"/>
+                        <Label Text="Add meg a darabszámát:"/>
+                        <Entry x:Name="Quantiy"/>
+                        <Button Text="Hozzáadás" Clicked="CreateSale" BackgroundColor="Green"/>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
