@@ -17,5 +17,10 @@
         <ShellContent ContentTemplate="{DataTemplate pages:SalePage}" />
         </Tab>
     </FlyoutItem>
+    <FlyoutItem Title="Statisztika">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate pages:ReportPage}" />
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

@@ -1,51 +1,52 @@
 using CukorMaui.Models;
-using System.Collections.ObjectModel;
 
 namespace CukorMaui.Pages;
 
 public partial class SalePage : ContentPage
 {
-    FileService fileService = new FileService();
-    public ObservableCollection<Candy> Candies { get; set; } = new ObservableCollection<Candy>();
-    public ObservableCollection<Sale> Sales { get; set; } = new ObservableCollection<Sale>();
-    public SalePage()
+    public FileService Service { get; }
+    Candy ?selectedCandy = null;
+    public SalePage(FileService fileService)
 	{
 		InitializeComponent();
-        LoadCandy();
-        BindingContext = this;
-
-    }
-    private void LoadCandy()
-    {
-        foreach (var item in fileService.ReadCandyFile())
-            Candies.Add(item);
-        foreach (var item in fileService.ReadSaleFile())
-            Sales.Add(item);
+        Service = fileService;
+        BindingContext = Service;
     }
 
     private void DeleteSale(object sender, EventArgs e)
     {
         var button = sender as Button;
         if (button?.BindingContext is Sale saleToDelete)
-            Sales.Remove(saleToDelete);
+            Service.Sales.Remove(saleToDelete);
     }
 
     private void CreateSale(object sender, EventArgs e)
     {
+        if (selectedCandy != null)
+        {
+            int id = 1;
+            if (Service.Sales.Count > 0)
+                id = Service.Sales.Max(x => x.Id) + 1;
+            int quantity = int.Parse(Quantiy.Text);
+            Service.Sales.Add(new Sale
+            {
+                Id = id,
+                CandyId = selectedCandy.Id,
+                Quantity = quantity,
+                Sum = quantity * selectedCandy.Price,
+            });
 
+            Quantiy.Text = string.Empty;
+            selectedCandy = null;
+            Picker.SelectedIndex = -1;
+        }
+        else
+            DisplayAlert("Hiba", "Nem választottál cukrot", "ok");
     }
     private void OnCandyPickerChanged(object sender, EventArgs e)
     {
         var picker = sender as Picker;
-
-        // A SelectedItem tartalmazza a TELJES Candy objektumot
-        if (picker?.SelectedItem is Candy selectedCandy)
-        {
-            // Itt már hozzáférsz mindenhez:
-            string nev = selectedCandy.Name;
-            int keszlet = selectedCandy.Stock;
-
-            DisplayAlert("Kiválasztva", $"A választottad: {nev} ({keszlet} db van készleten)", "OK");
-        }
+        if (picker?.SelectedItem is Candy pickerCandy)
+            selectedCandy = pickerCandy;
     }
 }

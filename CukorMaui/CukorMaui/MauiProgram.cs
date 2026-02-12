@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CukorMaui.Pages;
+using Microsoft.Extensions.Logging;
 
 namespace CukorMaui
 {
@@ -18,6 +19,11 @@ namespace CukorMaui
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<FileService>();
+            builder.Services.AddSingleton<MainPage>(); 
+            builder.Services.AddSingleton<SalePage>();
+            builder.Services.AddTransient<ReportPage>();
 
             return builder.Build();
         }
