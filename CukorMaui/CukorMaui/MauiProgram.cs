@@ -24,6 +24,7 @@ namespace CukorMaui
             builder.Services.AddSingleton<MainPage>(); 
             builder.Services.AddSingleton<SalePage>();
             builder.Services.AddTransient<ReportPage>();
+            builder.Services.AddTransient<EditPage>();
 
             return builder.Build();
         }

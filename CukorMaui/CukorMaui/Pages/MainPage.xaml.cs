@@ -1,4 +1,5 @@
 ﻿using CukorMaui.Models;
+using CukorMaui.Pages;
 
 namespace CukorMaui
 {
@@ -18,9 +19,7 @@ namespace CukorMaui
         {
             var button = sender as Button;
             if (button?.BindingContext is Candy candyToDelete)
-            {
                 Service.Candies.Remove(candyToDelete);
-            }
         }
 
         private void CreateCandy(object sender, EventArgs e)
@@ -41,6 +40,13 @@ namespace CukorMaui
             CandyName.Text = string.Empty;
             CandyPrice.Text = string.Empty;
             CandyStock.Text = string.Empty;
+        }
+
+        private void EditCandy(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button?.BindingContext is Candy candytoEdit)
+                Navigation.PushAsync(new EditPage(Service, candytoEdit));
         }
     }
 }
